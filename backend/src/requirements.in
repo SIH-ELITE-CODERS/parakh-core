@@ -1,0 +1,7 @@
+fastapi
+pydantic
+uvicorn
+pip-tools
+black
+python-dotenv
+pre-commit

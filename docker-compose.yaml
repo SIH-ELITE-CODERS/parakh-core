@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  app:
+    restart: always
+    image: varun10000/wc-app:latest
+    build:
+      context: './backend/src'
+    container_name: wc-app
+    command: sh -c "uvicorn app.main:app --host 0.0.0.0 --port 80"
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/usr/app/src
+  # client:
+  #   restart: always
+  #   image: varun10000/wc-client:latest
+  #   build:
+  #     context: './frontend/'
+  #   container_name: wc-client
+  #   command: sh -c ""
+  #   ports:
+  #     - "3000:80"
+  #   volumes:
+  #     - .:/usr/app/src
