@@ -1,13 +1,13 @@
 # Parakh 
 ## Introduction
 
-    The All India Council for Technical Education (AICTE) has undertaken a
-    significant initiative to assess and uplift the proficiency of
-    engineering students throughout the country. This project, known as
-    PARAKH, focuses on providing a comprehensive online assessment platform
-    for both academic and higher-order thinking skills. Our contribution to
-    this mission is eAssessPro, an innovative web-based adaptive multiple
-    choice question (MCQ) testing system.
+The All India Council for Technical Education (AICTE) has undertaken a
+significant initiative to assess and uplift the proficiency of
+engineering students throughout the country. This project, known as
+PARAKH, focuses on providing a comprehensive online assessment platform
+for both academic and higher-order thinking skills. Our contribution to
+this mission is eAssessPro, an innovative web-based adaptive multiple
+choice question (MCQ) testing system.
 
 ## Key Features
 
