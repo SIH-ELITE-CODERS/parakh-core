@@ -1,25 +1,48 @@
-version: '3'
+version: "3"
 
 services:
   app:
     restart: always
     image: varun10000/wc-app:latest
     build:
-      context: './backend/src'
+      context: "./backend/src"
     container_name: wc-app
-    command: sh -c "uvicorn app.main:app --host 0.0.0.0 --port 80"
+    command: sh -c "uvicorn core.main:app --host 0.0.0.0 --port 80"
+    env_file:
+      - .env
     ports:
       - "8000:80"
     volumes:
       - .:/usr/app/src
-  # client:
-  #   restart: always
-  #   image: varun10000/wc-client:latest
-  #   build:
-  #     context: './frontend/'
-  #   container_name: wc-client
-  #   command: sh -c ""
-  #   ports:
-  #     - "3000:80"
-  #   volumes:
-  #     - .:/usr/app/src
+  primarydb:
+    restart: always
+    image: couchbase/server:7.1.5
+    container_name: couchbase-db
+    ports:
+      - "8091:8091" # Couchbase Web Console
+      - "8092:8092" # Couchbase API
+      - "8093:8093" # Couchbase Query
+      - "11210:11210" # Couchbase Data
+    volumes:
+      - couchbase_data:/opt/couchbase/var
+    profiles:
+      - "primarydb"
+    environment:
+      - COUCHBASE_ROOT_PASSWORD=root
+      - COUCHBASE_BUCKET=development
+      - COUCHBASE_BUCKET_PASSWORD=root
+      - COUCHBASE_ADMIN_USER=root
+      - COUCHBASE_ADMIN_PASSWORD=root
+    networks:
+      - couchbase_network
+  cachedb:
+    restart: always
+    image: redis:latest
+    container_name: redis-db
+    ports:
+      - "6379:6379"
+volumes:
+  couchbase_data:
+
+networks:
+  couchbase_network:

@@ -5,7 +5,7 @@ install:
 	@pip install -r backend/src/requirements.txt
 dev-backend:
 	@echo "Starting backend server...."
-	@cd backend/src/app && uvicorn main:app --reload
+	@cd backend/src/core && uvicorn main:app --reload
 deps:
 	@pip-compile -v backend/src/requirements.in
 deploy:

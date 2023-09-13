@@ -19,6 +19,8 @@ click==8.1.6
     #   black
     #   pip-tools
     #   uvicorn
+couchbase==4.1.8
+    # via -r backend/src/requirements.in
 distlib==0.3.7
     # via virtualenv
 fastapi==0.101.0
