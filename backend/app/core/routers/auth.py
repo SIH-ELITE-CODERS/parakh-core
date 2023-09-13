@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from dependencies.db import scope
-from dto.user import UserSignupDto as User
+from core.dependencies.db import scope
+from core.dto.user import UserSignupDto as User
 
 router = APIRouter(
     prefix="/api/user",
@@ -33,6 +33,3 @@ async def create_user(user: User):
     collection.upsert("3", new_user)
     result = collection.get("3")
     return result.value
-
-
-# @router.get("/users",tags=["users"])

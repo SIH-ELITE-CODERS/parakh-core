@@ -8,6 +8,9 @@ services:
       context: "./backend/src"
     container_name: wc-app
     command: sh -c "uvicorn core.main:app --host 0.0.0.0 --port 80"
+    depends_on:
+      - primarydb
+      - cachedb
     env_file:
       - .env
     ports:
@@ -18,11 +21,11 @@ services:
     restart: always
     image: couchbase/server:7.1.5
     container_name: couchbase-db
-    ports:
-      - "8091:8091" # Couchbase Web Console
-      - "8092:8092" # Couchbase API
-      - "8093:8093" # Couchbase Query
-      - "11210:11210" # Couchbase Data
+    # ports:
+    #   # - "8091:8091" # Couchbase Web Console
+    #   # - "8092:8092" # Couchbase API
+    #   # - "8093:8093" # Couchbase Query
+    #   # - "11210:11210" # Couchbase Data
     volumes:
       - couchbase_data:/opt/couchbase/var
     profiles:
@@ -30,9 +33,9 @@ services:
     environment:
       - COUCHBASE_ROOT_PASSWORD=root
       - COUCHBASE_BUCKET=development
-      - COUCHBASE_BUCKET_PASSWORD=root
+      - COUCHBASE_BUCKET_PASSWORD=Ak@123456
       - COUCHBASE_ADMIN_USER=root
-      - COUCHBASE_ADMIN_PASSWORD=root
+      - COUCHBASE_ADMIN_PASSWORD=Ak@123456
     networks:
       - couchbase_network
   cachedb:

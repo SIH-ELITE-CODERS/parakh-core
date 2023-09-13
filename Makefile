@@ -2,12 +2,12 @@
 
 install:
 	@echo "Installing backend dependencies...."
-	@pip install -r backend/src/requirements.txt
+	@pip install -r backend/app/requirements.txt
 dev-backend:
 	@echo "Starting backend server...."
-	@cd backend/src/core && uvicorn main:app --reload
+	@cd backend/app && uvicorn core.main:app --reload
 deps:
-	@pip-compile -v backend/src/requirements.in
+	@pip-compile -v backend/requirements.in
 deploy:
 	@okteto context use "https://cloud.okteto.com"
 	@okteto deploy -n varun-dhruv --build
