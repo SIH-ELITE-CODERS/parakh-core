@@ -1,4 +1,4 @@
-version: "3"
+version: "3.0"
 
 services:
   app:
@@ -7,7 +7,7 @@ services:
     build:
       context: "./backend/app"
     container_name: wc-app
-    command: sh -c "uvicorn core.main:app --host 0.0.0.0 --port 80"
+    command: sh -c "chmod a+x start.sh && ./start.sh"
     depends_on:
       - primarydb
       - cachedb
@@ -15,29 +15,31 @@ services:
       - .env
     ports:
       - "8000:80"
+    links:
+      - "primarydb:db"
     volumes:
       - .:/usr/app/src
   primarydb:
     restart: always
     image: couchbase/server:7.1.5
     container_name: couchbase-db
-    # ports:
-    #   # - "8091:8091" # Couchbase Web Console
-    #   # - "8092:8092" # Couchbase API
-    #   # - "8093:8093" # Couchbase Query
-    #   # - "11210:11210" # Couchbase Data
+    ports:
+      - "8091:8091" # Couchbase Web Console
+      # - "8092:8092" # Couchbase API
+      - "8093:8093" # Couchbase Query
+      # - "11210:11210" # Couchbase Data
     volumes:
       - couchbase_data:/opt/couchbase/var
     profiles:
       - "primarydb"
     environment:
-      - COUCHBASE_ROOT_PASSWORD=root
-      - COUCHBASE_BUCKET=development
-      - COUCHBASE_BUCKET_PASSWORD=Ak@123456
-      - COUCHBASE_ADMIN_USER=root
-      - COUCHBASE_ADMIN_PASSWORD=Ak@123456
-    networks:
-      - couchbase_network
+      - COUCHBASE_SERVER_USERNAME=${DB_USERNAME}
+      - COUCHBASE_SERVER_PASSWORD=${DB_PASSWORD}
+      - COUCHBASE_BUCKET=${DB_BUCKET}
+      - COUCHBASE_BUCKET_TYPE=ephemeral
+      - COUCHBASE_BUCKET_RAMSIZE=512
+      - COUCHBASE_BUCKET_REPLICAS=1
+      - COUCHBASE_BUCKET_SCOPE=${DB_SCOPE}
   cachedb:
     restart: always
     image: redis:latest
@@ -46,6 +48,3 @@ services:
       - "6379:6379"
 volumes:
   couchbase_data:
-
-networks:
-  couchbase_network:

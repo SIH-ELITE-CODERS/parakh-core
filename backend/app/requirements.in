@@ -6,3 +6,5 @@ black
 python-dotenv
 pre-commit
 couchbase
+python-jose[cryptography]
+passlib[bcrypt]

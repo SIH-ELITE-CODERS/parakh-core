@@ -9,20 +9,20 @@ import os
 load_d()
 DB_USERNAME = os.getenv("DB_USERNAME")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_URL = os.getenv("DB_URL")
+DB_HOST = os.getenv("DB_HOST")
 DB_BUCKET = os.getenv("DB_BUCKET")
 DB_SCOPE = os.getenv("DB_SCOPE")
-
+DB_PROTOCOL = os.getenv("DB_PROTOCOL")
 
 auth = PasswordAuthenticator(DB_USERNAME, DB_PASSWORD)
 cluster = Cluster.connect(
-    "couchbases://{}".format(DB_URL),
+    "{}://{}".format(DB_PROTOCOL, DB_HOST),
     ClusterOptions(auth),
 )
-# cluster.wait_until_ready(timedelta(seconds=5))
 cb = cluster.bucket(DB_BUCKET)
 scope = cb.scope(DB_SCOPE)
 
+# scope.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `development`.sih.users USING GSI").execute()
 
 # # def connectToDatabase():
 # #     try:
